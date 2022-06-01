@@ -1,14 +1,13 @@
 ;; # 🎠 Clerk Slideshow
-;; ---
 ^{:nextjournal.clerk/visibility :hide-ns}
-(ns clerk-slideshow
+(ns nextjournal.clerk-slideshow
   (:require [nextjournal.clerk :as clerk]
             [nextjournal.clerk.viewer :as v]
             [clojure.walk :as w]))
 
-;; With a custom viewer and some helper functions, we can show a Clerk notebooks as Slideshow.
-;;
-;; `->slide` wraps a collection of blocks into markup suitable for rendering a slide.
+;; With a custom viewer and some helper functions, we can show Clerk notebooks
+;; as slideshow. `->slide` wraps a collection of blocks into markup suitable
+;; for rendering a slide.
 (defn ->slide [blocks]
   [:div.flex.flex-col.justify-center
    {:style {:min-block-size "100vh"}}
@@ -17,8 +16,8 @@
      (map (comp (fn [block] (if (:type block) (v/md block) (v/with-viewer :clerk/result block)))))
      blocks)])
 
-;; ---
-;; The `doc->slides` helper function takes a Clerk notebook and partitions its blocks into slides by occurrences of markdown rulers.
+;; The `doc->slides` helper function takes a Clerk notebook and
+;; partitions its blocks into slides separated by Markdown rulers (`---`).
 (defn doc->slides [{:as doc :keys [blocks]}]
   (sequence (comp (mapcat (partial v/with-block-viewer doc))
               (mapcat #(if (= :markdown (v/->viewer %)) (-> % v/->value :content) [(v/->value %)]))
@@ -26,9 +25,11 @@
               (remove (comp #{:ruler} :type first))
               (map ->slide))
     blocks))
-;; ---
-;; Lastly, the `slideshow-viewer` overrides the notebook viewer
-(def slideshow-viewer
+
+;; We can then override Clerk’s default notebook viewer with
+;; a custom slideshow viewer which can be required and set using
+;; `clerk/add-viewers!`.
+(def viewer
   {:name :clerk/notebook
    :transform-fn (comp v/mark-presented
                    (v/update-val (comp (partial w/postwalk (v/when-wrapped v/inspect-wrapped-value))
@@ -92,25 +93,3 @@
                                    :transition default-transition}
                                   slide]]))
                             slides))]))))})
-
-
-(clerk/add-viewers! [slideshow-viewer])
-
-;; ---
-
-;; ## 📊 Plotly
-^{::clerk/visibility :hide}
-(clerk/plotly {:data [{:z [[1 2 3] [3 2 1]] :type "surface"}]})
-
-;; ---
-
-;; ## 📈 Vega Lite
-^{::clerk/visibility :hide}
-(clerk/vl {:width 650 :height 400 :data {:url "https://vega.github.io/vega-datasets/data/us-10m.json"
-                                         :format {:type "topojson" :feature "counties"}}
-           :transform [{:lookup "id" :from {:data {:url "https://vega.github.io/vega-datasets/data/unemployment.tsv"}
-                                            :key "id" :fields ["rate"]}}]
-           :projection {:type "albersUsa"} :mark "geoshape" :encoding {:color {:field "rate" :type "quantitative"}}})
-
-;; ---
-;; # 👋🏻 Fin.
