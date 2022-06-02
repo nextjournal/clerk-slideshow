@@ -8,7 +8,7 @@
 ;;
 ;; Simply require `clerk-slideshow`
 
-(ns simple_slideshow
+(ns simple-slideshow
   (:require [nextjournal.clerk :as clerk]
             [nextjournal.clerk-slideshow :as slideshow]))
 
