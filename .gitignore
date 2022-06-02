@@ -9,7 +9,7 @@ notebooks/scratch*.clj
 /.shadow-cljs/
 /target/
 .idea/
-clerk.iml
+clerk-slideshow.iml
 public/girouette.css
 public/images/
 yarn.lock
