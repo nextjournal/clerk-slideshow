@@ -35,12 +35,12 @@
                    (v/update-val (comp (partial w/postwalk (v/when-wrapped v/inspect-wrapped-value))
                                    doc->slides)))
    :render-fn '(fn [slides]
+                 (defonce !state (reagent/atom {:current-slide 0
+                                                :grid? false
+                                                :viewport-width js/innerWidth
+                                                :viewport-height js/innerHeight}))
                  (v/html
-                   (reagent/with-let [!state (reagent/atom {:current-slide 0
-                                                            :grid? false
-                                                            :viewport-width js/innerWidth
-                                                            :viewport-height js/innerHeight})
-                                      ref-fn (fn [el]
+                   (reagent/with-let [ref-fn (fn [el]
                                                (when el
                                                  (swap! !state assoc :stage-el el)
                                                  (js/addEventListener "resize"
