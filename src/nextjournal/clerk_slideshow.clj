@@ -1,5 +1,4 @@
 ;; # 🎠 Clerk Slideshow
-^{:nextjournal.clerk/visibility :hide-ns}
 (ns nextjournal.clerk-slideshow
   (:require [nextjournal.clerk :as clerk]
             [nextjournal.clerk.viewer :as v]
@@ -13,7 +12,7 @@
    {:style {:min-block-size "100vh"}}
    (into [:div.text-xl.p-20 {:class ["prose max-w-none prose-h1:mb-0 prose-h2:mb-8 rose-h3:mb-8 prose-h4:mb-8"
                                      "prose-h1:text-6xl prose-h2:text-5xl prose-h3:text-3xl prose-h4:text-2xl"]}]
-     (map (comp (fn [block] (if (:type block) (v/md block) (v/with-viewer :clerk/result block)))))
+     (map (comp (fn [block] (if (contains? block :result) (v/transform-result {:nextjournal/value block}) (v/md block)))))
      blocks)])
 
 ;; The `doc->slides` helper function takes a Clerk notebook and
