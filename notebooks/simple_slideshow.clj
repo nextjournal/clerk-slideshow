@@ -14,7 +14,7 @@
 
 ;; and add it to Clerk’s existing viewers
 
-^{::clerk/viewer clerk/hide-result}
+^{::clerk/visibility {:code :hide :result :hide}}
 (clerk/add-viewers! [slideshow/viewer])
 
 ;; ---
@@ -31,12 +31,12 @@
 
 ;; ---
 ;; ## 📊 A Plotly graph
-^{::clerk/visibility :hide}
+^{::clerk/visibility {:code :hide}}
 (clerk/plotly {:data [{:z [[1 2 3] [3 2 1]] :type "surface"}]})
 
 ;; ---
 ;; ## 📈 A Vega Lite graph
-^{::clerk/visibility :hide}
+^{::clerk/visibility {:code :hide}}
 (clerk/vl {:width 650 :height 400 :data {:url "https://vega.github.io/vega-datasets/data/us-10m.json"
                                          :format {:type "topojson" :feature "counties"}}
            :transform [{:lookup "id" :from {:data {:url "https://vega.github.io/vega-datasets/data/unemployment.tsv"}
