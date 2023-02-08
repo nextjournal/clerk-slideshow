@@ -1,7 +1,7 @@
 ;; # 🎠 Clerk Slideshow
 ;; ---
 (ns nextjournal.clerk-slideshow
-  (:require [nextjournal.clerk.viewer :as view]
+  (:require [nextjournal.clerk.viewer :as v]
             [nextjournal.clerk :as clerk]))
 
 ;; With a custom viewer and some helper functions, we can turn a Clerk notebooks into a presentation.
