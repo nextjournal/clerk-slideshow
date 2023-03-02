@@ -16,7 +16,7 @@
                                                     "prose-h1:text-6xl prose-h2:text-5xl prose-h3:text-3xl prose-h4:text-2xl"]}]
                         ;; TODO: fix markup for code blocks to use (v/inspect-children opts)
                         (map (fn [{:as block {:keys [name]} :nextjournal/viewer}]
-                               [:div {:class (when (= :code name) "viewer-code")}
+                               [:div {:class (when (= `v/code-viewer name) "code-viewer")}
                                 [nextjournal.clerk.render/inspect-presented block]])) blocks)])})
 
 ;; ---
