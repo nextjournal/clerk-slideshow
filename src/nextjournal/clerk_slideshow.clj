@@ -14,16 +14,22 @@
                   {:style {:min-block-size "100vh"}}
                   (into [:div.text-xl.p-20 {:class ["prose max-w-none prose-h1:mb-0 prose-h2:mb-8 rose-h3:mb-8 prose-h4:mb-8"
                                                     "prose-h1:text-6xl prose-h2:text-5xl prose-h3:text-3xl prose-h4:text-2xl"]}]
-                        ;; TODO: fix markup for code blocks to use (v/inspect-children opts)
-                        (map (fn [{:as block {:keys [name]} :nextjournal/viewer}]
-                               [:div {:class (when (= `v/code-viewer name) "code-viewer")}
-                                [nextjournal.clerk.render/inspect-presented block]])) blocks)])})
+                        (nextjournal.clerk.render/inspect-children opts)
+                        blocks)])})
+
+;; We need a simpler code viewer than the default one, one that adapts to the full width of the slideshow.
+(def code-viewer
+  {:render-fn '(fn [code] [:div.code-viewer [nextjournal.clerk.render.code/render-code code]])
+   :transform-fn (comp v/mark-presented (v/update-val :text-without-meta))})
 
 ;; ---
 ;; The `doc->slides` helper function takes Clerk notebook data and partitions its blocks into slides by occurrences of markdown rulers.
 (defn doc->slides [{:as doc :keys [blocks]}]
   (sequence (comp (mapcat (partial v/with-block-viewer doc))
-                  (mapcat #(if (= `v/markdown-viewer (v/->viewer %)) (map v/md (-> % v/->value :content)) [%]))
+                  (mapcat #(cond
+                            (= `v/markdown-viewer (v/->viewer %)) (map v/md (-> % v/->value :content))
+                            (= `v/code-block-viewer (v/->viewer %)) [(assoc % :nextjournal/viewer code-viewer)]
+                            :else [%]))
                   (partition-by (comp #{:ruler} :type v/->value))
                   (remove (comp #{:ruler} :type v/->value first))
                   (map (partial v/with-viewer slide-viewer)))
@@ -94,4 +100,5 @@
                                    slides))])))))
 
 (comment
-  (clerk/add-viewers! [viewer]))
+  (clerk/add-viewers! [viewer])
+  (clerk/reset-viewers! clerk/default-viewers))
