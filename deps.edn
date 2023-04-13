@@ -1,7 +1,7 @@
 {:aliases
  {:dev {:paths ["dev"]}
   :nextjournal/clerk
-  {:extra-deps {io.github.nextjournal/clerk {:git/sha "ef2828d20a9fe039e693487f8d1fce4637109fc2"}}
+  {:extra-deps {io.github.nextjournal/clerk {:git/sha "c4f5fe11f7b4f1141654c7082f04d737f7192f1d"}}
    :extra-paths ["notebooks"]
    :exec-fn nextjournal.clerk/build-static-app!
    :exec-args {:paths ["notebooks/simple_slideshow.clj"]}}}}

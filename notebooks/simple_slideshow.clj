@@ -44,6 +44,11 @@
            :projection {:type "albersUsa"} :mark "geoshape" :encoding {:color {:field "rate" :type "quantitative"}}})
 
 ;; ---
+;; ## 🖼️ An Image
+^{::clerk/visibility {:code :hide}}
+(clerk/image "https://images.unsplash.com/photo-1532879311112-62b7188d28ce?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8")
+
+;; ---
 ;; ## And that’s it for now! 👋
 ;;
 ;; More demos will follow soon!
