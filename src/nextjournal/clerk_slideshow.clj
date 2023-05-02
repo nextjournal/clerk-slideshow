@@ -12,7 +12,7 @@
   {:render-fn '(fn [blocks opts]
                  [:div.flex.flex-col.justify-center
                   {:style {:min-block-size "100vh"}}
-                  (into [:div.text-xl.p-20 {:class ["prose max-w-none prose-h1:mb-0 prose-h2:mb-8 rose-h3:mb-8 prose-h4:mb-8"
+                  (into [:div.text-xl.p-20 {:class ["prose max-w-none prose-h1:mb-0 prose-h2:mb-8 prose-h3:mb-8 prose-h4:mb-8"
                                                     "prose-h1:text-6xl prose-h2:text-5xl prose-h3:text-3xl prose-h4:text-2xl"]}]
                         (nextjournal.clerk.render/inspect-children opts)
                         blocks)])})
