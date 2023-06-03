@@ -1,5 +1,5 @@
 {:aliases
- {:dev {:paths ["dev"]}
+ {:dev {:extra-paths ["dev"]}
   :nextjournal/clerk
   {:extra-deps {io.github.nextjournal/clerk {:git/sha "c4f5fe11f7b4f1141654c7082f04d737f7192f1d"}}
    :extra-paths ["notebooks"]
