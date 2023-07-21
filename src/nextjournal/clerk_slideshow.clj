@@ -19,7 +19,7 @@
 
 ;; We need a simpler code viewer than the default one, one that adapts to the full width of the slideshow.
 (def code-viewer
-  {:render-fn '(fn [code] [:div.code-viewer [nextjournal.clerk.render.code/render-code code]])
+  {:render-fn '(fn [code] [:div.code-viewer [nextjournal.clerk.render.code/render-code code {:language "clojure"}]])
    :transform-fn (comp v/mark-presented (v/update-val :text-without-meta))})
 
 ;; ---
