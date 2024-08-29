@@ -1,4 +1,4 @@
-(ns nextjournal.clerk-slideshow
+(ns nextjournal.clerk-slideshow.render
   (:require ["framer-motion" :as framer-motion :refer [motion]]
             [nextjournal.clerk.render :as render]
             [nextjournal.clerk.render.code :as render.code]

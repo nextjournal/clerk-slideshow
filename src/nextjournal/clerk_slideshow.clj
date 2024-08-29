@@ -2,6 +2,7 @@
 ;; ---
 (ns nextjournal.clerk-slideshow
   (:require [nextjournal.clerk.viewer :as v]
+            [nextjournal.clerk-slideshow.render :as-alias render]
             [nextjournal.clerk :as clerk]))
 
 ;; With a custom viewer and some helper functions, we can turn a Clerk notebooks into a presentation.
@@ -9,12 +10,12 @@
 ;; `slide-viewer` wraps a collection of blocks into markup suitable for rendering a slide.
 
 (def slide-viewer
-  {:render-fn `render-slide
+  {:render-fn `render/render-slide
    :require-cljs true})
 
 ;; We need a simpler code viewer than the default one, one that adapts to the full width of the slideshow.
 (def code-viewer
-  {:render-fn `render-code
+  {:render-fn `render/render-code
    :require-cljs true
    :transform-fn (comp v/mark-presented (v/update-val :text-without-meta))})
 
@@ -36,7 +37,7 @@
 (def viewer
   (assoc v/notebook-viewer
          :transform-fn (v/update-val doc->slides)
-         :render-fn `render-slideshow
+         :render-fn `render/render-slideshow
          :require-cljs true))
 
 (comment
